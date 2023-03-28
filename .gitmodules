@@ -1,0 +1,9 @@
+[submodule "ieb_service_client_front"]
+	path = ieb_service_client_front
+	url = git@github.com:ihribernik/ieb_service_client_front.git
+[submodule "ieb_service_middleware"]
+	path = ieb_service_middleware
+	url = git@github.com:ihribernik/ieb_service_middleware.git
+[submodule "ieb_service_http"]
+	path = ieb_service_http
+	url = git@github.com:ihribernik/ieb_service_http.git
