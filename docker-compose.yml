@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  middleware:
+    build: ./ieb_service_middleware
+    env_file: ./ieb_service_middleware/.env.example
+    ports:
+      - "8001:8001"
+    network_mode: host
+    stdin_open: true
+    tty: true
+  db:
+    image: postgres:latest
+    env_file: ./ieb_service_http/.env.example
+    volumes:
+      - ./volume/postgres:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+  api-rest:
+    build: ./ieb_service_http
+    env_file: ./ieb_service_http/.env.example
+    command: >
+      bash -c " sleep 10 && make migrations && make migrate && python manage.py crontab add && cron && python manage.py add-superuser && make run"
+    ports:
+      - "8000:8000"
+    links:
+      - db
+    depends_on:
+      - db
+    network_mode: host
+    stdin_open: true
+    tty: true
+
+  web:
+    build: ./ieb_service_client_front
+    # env_file: ./ieb_service_client_front/.env.example
+    ports:
+      - "80:80"
+    network_mode: host
+    stdin_open: true
+    tty: true
