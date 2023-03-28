@@ -13,9 +13,12 @@ services:
     image: postgres:latest
     env_file: ./ieb_service_http/.env.example
     volumes:
-      - ./volume/postgres:/var/lib/postgresql/data/
+      - ./ieb_service_http/volume/postgres:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+    network_mode: host
+    stdin_open: true
+    tty: true
 
   api-rest:
     build: ./ieb_service_http
